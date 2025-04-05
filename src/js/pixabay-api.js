@@ -13,7 +13,10 @@ export default function getImagesByQuery(query) {
 
   axios(`https://pixabay.com/api/?${params}`)
     .then(response => {
-      console.log(response.data.hits);
+      const array = response.data.hits;
+      console.log(array);
+
+      return array;
     })
     .catch(error => console.log(error));
 }

@@ -4,6 +4,7 @@
   transform: translateX(-50%);
 
   height: 40px;
+  margin-bottom: 32px;
 }
 
 .form-input {
@@ -15,6 +16,7 @@
   padding-left: 16px;
   color: #808080;
 }
+
 .btn-submit {
   border-radius: 8px;
   border: none;
@@ -29,3 +31,32 @@
 /* .form-input:hover {
   border: 1px solid #000;
 } */
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.gallery-item {
+  flex-basis: calc((100% - 48px) / 3);
+  height: 200px;
+}
+
+.img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.box-statistic {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+}
+
+.statistic-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

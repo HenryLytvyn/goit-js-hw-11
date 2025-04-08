@@ -1,3 +1,6 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
@@ -24,6 +27,8 @@ function handleSubmit(event) {
     return;
   }
 
+  let galleryLightBox;
+
   getImagesByQuery(usersRequest)
     .then(response => {
       const array = response.data.hits;
@@ -42,8 +47,13 @@ function handleSubmit(event) {
       }
       createGallery(array);
       hideLoader();
-    })
 
+      galleryLightBox = new SimpleLightbox('.gallery li a', {
+        captionsData: 'alt',
+        captionDelay: 250,
+      });
+      galleryLightBox.refresh();
+    })
     .catch(error => console.log(error.message));
 
   form.reset();

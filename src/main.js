@@ -34,12 +34,12 @@ function handleSubmit(event) {
       const array = response.data.hits;
       if (!array.length) {
         iziToast.show({
-          iconUrl: './img/error.svg',
           iconColor: '#ffffff',
           message:
             'Sorry, there are no images matching your search query. Please try again!',
           backgroundColor: '#B51B1B',
           messageColor: '#ffffff',
+          iconUrl: './img/error.svg',
         });
         clearGallery();
         hideLoader();

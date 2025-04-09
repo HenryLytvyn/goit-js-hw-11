@@ -15,46 +15,76 @@ import {
 document.querySelector('.span.loader').classList.remove('loader');
 
 const form = document.querySelector('.form');
+const gallery = document.querySelector('.gallery');
+
+const errorMessage = {
+  iconColor: '#ffffff',
+  message:
+    'Sorry, there are no images matching your search query. Please try again!',
+  backgroundColor: '#B51B1B',
+  messageColor: '#ffffff',
+  iconUrl: './img/error.svg',
+};
+
+const errorServerConnection = {
+  title: 'ERROR',
+  titleColor: '#ffffff',
+  message: 'Error connecting to server',
+  messageColor: '#ffffff',
+  iconUrl: './img/error.svg',
+  iconColor: '#ffffff',
+  backgroundColor: '#B51B1B',
+};
 
 form.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event) {
   event.preventDefault();
 
-  showLoader();
-  const usersRequest = event.target.elements.text.value.trim();
-  if (!usersRequest) {
-    return;
-  }
+  gallery.innerHTML = '';
 
-  let galleryLightBox;
+  const usersRequest = event.target.elements.text.value.trim();
+  checkInput(usersRequest);
+  showLoader();
 
   getImagesByQuery(usersRequest)
     .then(response => {
       const array = response.data.hits;
-      if (!array.length) {
-        iziToast.show({
-          iconColor: '#ffffff',
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
-          backgroundColor: '#B51B1B',
-          messageColor: '#ffffff',
-          iconUrl: './img/error.svg',
-        });
-        clearGallery();
-        hideLoader();
-        return;
-      }
-      createGallery(array);
+      emptyInputCheck(array);
       hideLoader();
-
-      galleryLightBox = new SimpleLightbox('.gallery li a', {
-        captionsData: 'alt',
-        captionDelay: 250,
-      });
-      galleryLightBox.refresh();
+      createGallery(array);
+      createLightBox();
     })
-    .catch(error => console.log(error.message));
+    .catch(error => {
+      console.log(error.message);
+      hideLoader();
+      iziToast.show(errorServerConnection);
+    });
 
   form.reset();
+}
+
+function createLightBox() {
+  let galleryLightBox = new SimpleLightbox('.gallery li a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
+  galleryLightBox.refresh();
+}
+
+function checkInput(usersRequest) {
+  if (!usersRequest) {
+    iziToast.show(errorMessage);
+    form.reset();
+    return;
+  }
+}
+
+function emptyInputCheck(array) {
+  if (!array.length) {
+    iziToast.show(errorMessage);
+    clearGallery();
+    hideLoader();
+    return;
+  }
 }

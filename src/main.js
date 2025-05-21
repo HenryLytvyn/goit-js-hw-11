@@ -12,8 +12,6 @@ import {
   hideLoader,
 } from './js/render-functions';
 
-document.querySelector('.span.loader').classList.remove('loader');
-
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 
